@@ -12,6 +12,7 @@ var stage = new Konva.Stage({
   container: 'container',
   width: width,
   height: height,
+  draggable: true,
 });
 
 var layer = new Konva.Layer();
@@ -34,6 +35,10 @@ const previewStage = new Konva.Stage({
   scaleY: 1 / 6,
 });
 
+document.getElementById('reset').addEventListener('click', (e: MouseEvent) => {
+  stage.position({ x: 0, y: 0 });
+});
+
 // clone original layer, and disable all events on it
 // we will use "let" here, because we can redefine layer later
 /*
@@ -43,6 +48,7 @@ previewStage.add(previewLayer);
 // stage.add(gridLayer);
 stage.add(layer);
 
+/*
 const WIDTH = width;
 const HEIGHT = rack.getClientRect().height * 1.2;
 const PADDING = 20;
@@ -76,6 +82,7 @@ verticalBar.on('dragmove', function () {
 
   layer.y(-(HEIGHT - stage.height()) * delta);
 });
+*/
 
 /*
 var horizontalBar = new Konva.Rect({
@@ -97,7 +104,7 @@ var horizontalBar = new Konva.Rect({
   },
 });
 scrollLayers.add(horizontalBar);*/
-
+/*
 stage.on('wheel', function (e) {
   // prevent parent scrolling
   e.evt.preventDefault();
@@ -119,10 +126,11 @@ stage.on('wheel', function (e) {
   const vy =
     (layer.y() / (-HEIGHT + stage.height())) * availableHeight + PADDING;
   verticalBar.y(vy);
-
-  /*
+  */
+/*
   const availableWidth = stage.width() - PADDING * 2 - horizontalBar.width();
 
   const hx = (layer.x() / (-WIDTH + stage.width())) * availableWidth + PADDING;
-  horizontalBar.x(hx);*/
+  horizontalBar.x(hx);
 });
+*/

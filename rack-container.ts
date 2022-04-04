@@ -11,6 +11,7 @@ export class RackContainer extends Konva.Group {
   constructor() {
     super({ x: UUnit.width * 6, y: UUnit.height * 2 });
     const containerBg = new Konva.Rect({
+      fill: '#fff',
       cornerRadius: 8,
       height: RackHeader.height + Rack.height + 12,
       width: RackContainer.width,

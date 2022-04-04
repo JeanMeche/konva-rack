@@ -19,7 +19,7 @@ export class UUnit extends Konva.Group {
       });
 
       const text = new Konva.Text({
-        fontSize: 18,
+        fontSize: 14,
         fontFamily: 'arial',
         text: `${i + 1}`,
         height: UUnit.height,

@@ -1,11 +1,15 @@
 import Konva from 'konva';
 import { Colors } from '../style';
 
+export interface OutletsConfig {
+  side: 'left' | 'right';
+}
+
 export class Outlets extends Konva.Group {
   static width = 84;
   static outletSize = 24;
 
-  constructor() {
+  constructor(config: OutletsConfig) {
     super();
     const backgroundRect = new Konva.Rect({
       stroke: '#aaa',
@@ -31,10 +35,18 @@ export class Outlets extends Konva.Group {
         verticalAlign: 'middle',
       });
 
-      const group = new Konva.Group({
-        x: 8,
-        y: 8 + (Outlets.outletSize + 8) * index,
-      });
+      let group: Konva.Group;
+      if (config.side === 'left') {
+        group = new Konva.Group({
+          x: 8,
+          y: 8 + (Outlets.outletSize + 8) * index,
+        });
+      } else {
+        group = new Konva.Group({
+          x: Outlets.width - Outlets.outletSize - 8,
+          y: 8 + (Outlets.outletSize + 8) * index,
+        });
+      }
       group.add(rect, text);
       return group;
     });

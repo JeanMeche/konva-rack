@@ -38,7 +38,7 @@ export class Feed extends Konva.Group {
       max: 250,
     });
 
-    const outlets = new Outlets();
+    const outlets = new Outlets({ side: config.side });
     if (config.side === 'left') {
       outlets.position({
         x: Feed.width - Outlets.width - 12,
