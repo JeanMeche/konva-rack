@@ -13,7 +13,7 @@ export class RackContainer extends Konva.Group {
     const containerBg = new Konva.Rect({
       fill: '#fff',
       cornerRadius: 8,
-      height: RackHeader.height + Rack.height + 12,
+      height: RackHeader.height + Rack.height + 24,
       width: RackContainer.width,
 
       shadowColor: 'black',
@@ -24,13 +24,16 @@ export class RackContainer extends Konva.Group {
     this.add(containerBg);
 
     const leftUnits = new UUnit(Rack.units, 'left');
-    leftUnits.position({ x: RackContainer.unitOffset, y: RackHeader.height });
+    leftUnits.position({
+      x: RackContainer.unitOffset,
+      y: RackHeader.height + 12,
+    });
     this.add(leftUnits);
 
     const rightUnits = new UUnit(Rack.units, 'right');
     rightUnits.position({
       x: RackContainer.width - UUnit.width - RackContainer.unitOffset,
-      y: RackHeader.height,
+      y: RackHeader.height + 12,
     });
     this.add(rightUnits);
 
@@ -40,7 +43,7 @@ export class RackContainer extends Konva.Group {
     const rack = new Rack();
     rack.position({
       x: RackContainer.unitOffset + (UUnit.width * 2) / 3,
-      y: RackHeader.height,
+      y: RackHeader.height + 12,
     });
     this.add(rack);
   }

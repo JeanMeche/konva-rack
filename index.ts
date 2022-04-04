@@ -16,8 +16,8 @@ var stage = new Konva.Stage({
 });
 
 var layer = new Konva.Layer();
+
 const rack = new RackContainer();
-layer.add(rack);
 
 const leftFeed = new Feed({ color: Colors.teal, side: 'left' });
 leftFeed.position({ x: rack.x() - Feed.width - 12, y: rack.y() });
@@ -25,6 +25,8 @@ leftFeed.position({ x: rack.x() - Feed.width - 12, y: rack.y() });
 const rightFeed = new Feed({ color: Colors.orange, side: 'right' });
 rightFeed.position({ x: rack.x() + RackContainer.width + 12, y: rack.y() });
 layer.add(leftFeed, rightFeed);
+
+layer.add(rack);
 
 // create smaller preview stage
 const previewStage = new Konva.Stage({
@@ -134,3 +136,12 @@ stage.on('wheel', function (e) {
   horizontalBar.x(hx);
 });
 */
+
+function redraw() {
+  var container = document.querySelector<HTMLElement>('#container');
+
+  stage.width(container.offsetWidth);
+  stage.height(container.offsetHeight);
+}
+
+window.addEventListener('resize', redraw);

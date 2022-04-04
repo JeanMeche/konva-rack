@@ -3,7 +3,7 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import { RectConfig } from 'konva/lib/shapes/Rect';
 import { Gauge } from './gauge';
 import { Stack } from './stack';
-import { boldStyle, textStyle } from './style';
+import { boldStyle, Colors, textStyle } from './style';
 import { Tag } from './tag';
 import { UUnit } from './u-unit';
 
@@ -30,22 +30,32 @@ export class Asset extends Konva.Group {
       draggable: true,
       centeredScaling: true,
       id: config.name,
+      offset: {
+        x: config.width / 2,
+        y: (UUnit.height * config.uSize) / 2,
+      },
+      width: config.width,
+      height: UUnit.height * config.uSize + UUnit.vMargin * (config.uSize - 1),
+      x: config.width / 2,
     });
+
     this.groupSize = {
       width: config.width,
       height: UUnit.height * config.uSize + UUnit.vMargin * (config.uSize - 1),
     };
     this.uSize = config.uSize;
+
     const backgroundRect = new Konva.Rect({
       width: this.groupSize.width,
       height: this.groupSize.height,
 
       fill: '#424e54',
       strokeWidth: 1,
+
       shadowColor: 'black',
-      shadowBlur: 2,
+      shadowBlur: 3,
       shadowOffset: { x: 0, y: 1 },
-      shadowOpacity: 0.4,
+      shadowOpacity: 0.12,
     });
 
     this.add(backgroundRect);
@@ -55,20 +65,23 @@ export class Asset extends Konva.Group {
   }
 
   assetName() {
-    const titleWidth = this.config.width / 3 - 20;
+    const titleWidth = this.config.width / 3;
     this.titleBg = new Konva.Line({
       points: [
         0,
         0,
-        titleWidth,
+        titleWidth + 15,
         0,
-        titleWidth + 20,
+        titleWidth,
         UUnit.height,
         0,
         UUnit.height,
       ],
-      fill: '#4da3d4',
+      fill: Colors.blue,
       closed: true,
+      shadowBlur: 4,
+      shadowOffset: { x: 0, y: 4 },
+      shadowOpacity: 0.25,
     });
     this.add(this.titleBg);
 
@@ -77,11 +90,12 @@ export class Asset extends Konva.Group {
       text: this.config.name,
       fontSize: 14,
       fontFamily: 'arial',
-      fill: 'white',
-      width: titleWidth,
+      fill: Colors.darkSlate,
+      width: titleWidth - 4,
       height: UUnit.height,
       verticalAlign: 'middle',
       wrap: 'none',
+      padding: 8,
       ellipsis: true,
     });
     this.add(assetName);
@@ -115,7 +129,7 @@ export class Asset extends Konva.Group {
       const stack = new Stack([tag, vmCount, powerGauge]);
       stack.position({ x: this.groupSize.width - stack.width() - 12, y: 3 });
       this.add(stack);
-      const labelShift = 4;
+      const labelShift = 8;
 
       const labelWidth =
         this.groupSize.width -

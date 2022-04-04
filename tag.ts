@@ -13,22 +13,24 @@ export class Tag extends Konva.Group {
     const height = 20;
 
     const label = new Konva.Text({
-      fontSize: 12,
+      fontSize: 11,
       fontFamily: 'Arial',
       fill: 'black',
       text,
       height,
-      padding: 6,
+      verticalAlign: 'middle',
+      align: 'center',
     });
 
     this.backgroundRect = new Konva.Rect({
       x: label.x(),
       y: label.y(),
-      width: label.width(),
+      width: label.width() + 16,
       height,
       fill: '#ccc',
       cornerRadius: 20,
     });
+    label.width(this.backgroundRect.getClientRect().width);
 
     this.size(this.backgroundRect.size());
     this.add(this.backgroundRect, label);

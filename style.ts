@@ -1,6 +1,7 @@
 import { TextConfig } from 'konva/lib/shapes/Text';
 
 export const Colors = {
+  blue: '#4DA3D4',
   lightGrey: '#EEF0F0',
   darkSlate: '#424e54',
   teal: '#00B2A9',

@@ -12,6 +12,8 @@ export class Rack extends Konva.Group {
   private shadowRectangle: Konva.Rect;
   private rackSlots: Record<number, Asset> = {};
   private draggedAssetRow: number | undefined;
+  private selectedAsset: Asset | undefined;
+  private backDrop: Konva.Rect;
   constructor() {
     super();
 
@@ -41,6 +43,9 @@ export class Rack extends Konva.Group {
         dragEnd: this.dragEnd,
       });
       this.addAsset(asset, row);
+      asset.on('click', () => {
+        this.handleSelection(asset);
+      });
     });
 
     this.shadowRectangle = new Konva.Rect({
@@ -55,10 +60,23 @@ export class Rack extends Konva.Group {
 
     this.shadowRectangle.hide();
     this.add(this.shadowRectangle);
+
+    this.backDrop = new Konva.Rect({
+      width: Rack.width,
+      height: Rack.height,
+      opacity: 0.7,
+      fill: 'white',
+    });
+    this.add(this.backDrop);
+    this.backDrop.moveToBottom();
   }
 
   addAsset(asset: Asset, row: number) {
-    asset.y(this.yForRow(row));
+    asset.y(
+      this.yForRow(row) +
+        asset.groupSize.height / 2 -
+        (Math.round(asset.uSize / 2) - 1) * UUnit.vMargin
+    );
     this.add(asset);
 
     for (let i = 0; i < asset.uSize; i++) {
@@ -72,6 +90,23 @@ export class Rack extends Konva.Group {
 
   private rowForY(y: number): number {
     return Math.round(y / UUnit.heightAndMargin) + 1;
+  }
+
+  private handleSelection(asset: Asset) {
+    const scalingValue = 1.1;
+    if (asset.scaleX() == scalingValue) {
+      this.backDrop.moveToBottom();
+      this.backDrop.opacity(0);
+      asset.scale({ x: 1, y: 1 });
+      this.selectedAsset?.scale({ x: 1, y: 1 });
+      this.selectedAsset = undefined;
+    } else {
+      this.backDrop.moveToTop();
+      this.backDrop.opacity(0.7);
+      asset.scale({ x: scalingValue, y: scalingValue });
+      asset.moveToTop();
+      this.selectedAsset = asset;
+    }
   }
 
   private dragStart = (e: KonvaEventObject<DragEvent>, asset: Asset) => {

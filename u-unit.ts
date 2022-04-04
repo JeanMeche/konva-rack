@@ -14,13 +14,14 @@ export class UUnit extends Konva.Group {
         width: UUnit.width,
         height: UUnit.height,
         fill: Colors.lightGrey,
-        stroke: '#444',
+        stroke: '#B9BFC2',
         strokeWidth: 0.5,
       });
 
       const text = new Konva.Text({
         fontSize: 14,
         fontFamily: 'arial',
+        fill: Colors.darkSlate,
         text: `${i + 1}`,
         height: UUnit.height,
         width: UUnit.width,
