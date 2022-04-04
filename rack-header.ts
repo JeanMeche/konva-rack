@@ -91,7 +91,7 @@ export class RackHeader extends Konva.Group {
       ...textStyle,
     });
 
-    const gauge = new Gauge(0.5, `${5530} W`);
+    const gauge = new Gauge({ percentage: 0.5, label: `${5530} W` });
 
     const group = new Konva.Group({
       y: 96,

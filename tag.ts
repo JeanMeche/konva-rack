@@ -6,19 +6,19 @@ export class Tag extends Konva.Group {
 
   constructor(
     text: string,
-    onClick: (e: KonvaEventObject<MouseEvent>) => void
+    onClick?: (e: KonvaEventObject<MouseEvent>) => void
   ) {
     super({});
 
-    const height = 26;
+    const height = 20;
 
     const label = new Konva.Text({
-      fontSize: 14,
+      fontSize: 12,
       fontFamily: 'Arial',
       fill: 'black',
       text,
       height,
-      padding: 8,
+      padding: 6,
     });
 
     this.backgroundRect = new Konva.Rect({
@@ -27,9 +27,10 @@ export class Tag extends Konva.Group {
       width: label.width(),
       height,
       fill: '#ccc',
-      cornerRadius: 24,
+      cornerRadius: 20,
     });
 
+    this.size(this.backgroundRect.size());
     this.add(this.backgroundRect, label);
 
     if (onClick) {

@@ -1,8 +1,10 @@
 import Konva from 'konva';
 
 export class UUnit extends Konva.Group {
-  static height: number = 30;
+  static height: number = 26;
   static width: number = 60;
+  static vMargin: number = 3;
+  static heightAndMargin = UUnit.height + UUnit.vMargin;
 
   constructor(public count: number, public align: 'left' | 'right') {
     super();
@@ -11,7 +13,8 @@ export class UUnit extends Konva.Group {
         width: UUnit.width,
         height: UUnit.height,
         fill: '#ddd',
-        stroke: '#bbb',
+        stroke: '#444',
+        strokeWidth: 0.5,
       });
 
       const text = new Konva.Text({
@@ -25,7 +28,9 @@ export class UUnit extends Konva.Group {
         padding: 8,
       });
 
-      const group = new Konva.Group({ y: UUnit.height * i });
+      const group = new Konva.Group({
+        y: UUnit.height * i + UUnit.vMargin * i,
+      });
       group.add(rect, text);
 
       return group;

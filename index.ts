@@ -58,9 +58,10 @@ const previewStage = new Konva.Stage({
 
 // clone original layer, and disable all events on it
 // we will use "let" here, because we can redefine layer later
+/*
 let previewLayer = layer.clone({ listening: false });
 previewStage.add(previewLayer);
-
+*/
 // stage.add(gridLayer);
 stage.add(layer);
 

@@ -1,14 +1,24 @@
 import Konva from 'konva';
-import { boldStyle } from './style';
+import { boldStyle, textStyle } from './style';
+
+interface GaugeConfig {
+  percentage: number;
+  label: string;
+  height?: number;
+  width?: number;
+  color?: string;
+  textColor?: string;
+}
 
 export class Gauge extends Konva.Group {
-  constructor(precentage: number, label: string, color: string = '#71B249') {
-    const gaugeWidth = 128;
-    const gaugeHeight = 24;
+  constructor(config: GaugeConfig) {
+    const gaugeWidth = config.width ?? 128;
+    const gaugeHeight = config.height ?? 24;
+    const color = config.color ?? '#71B249';
+    const textColor = config.textColor ?? 'white';
 
     super({
-      height: 24,
-      y: -6,
+      height: gaugeHeight,
       width: gaugeWidth,
     });
 
@@ -21,18 +31,19 @@ export class Gauge extends Konva.Group {
     });
 
     const gaugeColor = new Konva.Rect({
-      width: gaugeWidth * precentage,
-      height: 24,
+      width: gaugeWidth * config.percentage,
+      height: gaugeHeight,
       cornerRadius: [24, 0, 0, 24],
       fill: color,
     });
 
     const gaugeValue = new Konva.Text({
+      ...textStyle,
       width: gaugeWidth,
       height: gaugeHeight,
-      text: label,
-      ...boldStyle,
-      fontSize: 16,
+      text: config.label,
+      fill: textColor,
+      fontSize: gaugeHeight * 0.6,
       align: 'center',
       verticalAlign: 'middle',
     });
