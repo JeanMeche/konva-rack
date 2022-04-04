@@ -1,4 +1,5 @@
 import Konva from 'konva';
+import { Colors } from './style';
 
 export class UUnit extends Konva.Group {
   static height: number = 26;
@@ -12,7 +13,7 @@ export class UUnit extends Konva.Group {
       const rect = new Konva.Rect({
         width: UUnit.width,
         height: UUnit.height,
-        fill: '#ddd',
+        fill: Colors.lightGrey,
         stroke: '#444',
         strokeWidth: 0.5,
       });

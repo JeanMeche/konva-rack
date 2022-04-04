@@ -5,6 +5,8 @@ import { RackHeader } from '../rack-header';
 import { boldStyle, Colors } from '../style';
 
 export class FeedHeader extends Konva.Group {
+  static height = RackHeader.height;
+
   constructor(config: FeedConfig) {
     super();
 

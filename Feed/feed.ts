@@ -1,5 +1,7 @@
 import Konva from 'konva';
+import { FeedGauge } from '../Feed/feed-gauge';
 import { FeedHeader } from '../Feed/feed-header';
+import { Outlets } from '../Feed/outlets';
 
 export interface FeedConfig {
   color: string;
@@ -26,7 +28,40 @@ export class Feed extends Konva.Group {
     });
 
     const header = new FeedHeader(config);
-
     this.add(backgroundRect, header);
+
+    const feedGauge = new FeedGauge({
+      side: config.side,
+      percentage: 0.8,
+      critical: 180,
+      warning: 105,
+      max: 250,
+    });
+
+    const outlets = new Outlets();
+    if (config.side === 'left') {
+      outlets.position({
+        x: Feed.width - Outlets.width - 12,
+        y: FeedHeader.height + 12,
+      });
+      feedGauge.position({
+        x: 100,
+        y: FeedHeader.height + 24,
+      });
+    } else {
+      outlets.position({
+        x: 12,
+        y: FeedHeader.height + 12,
+      });
+      feedGauge.position({
+        x: Outlets.width + 64,
+        y: FeedHeader.height + 24,
+      });
+    }
+    this.add(outlets, feedGauge);
+
+    backgroundRect.height(
+      FeedHeader.height + 12 + outlets.getClientRect().height + 12
+    );
   }
 }

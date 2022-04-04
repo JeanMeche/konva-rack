@@ -16,7 +16,6 @@ export class Rack extends Konva.Group {
     super();
 
     const rect = new Rect({
-      fill: '#ccc',
       height: Rack.height,
       width: Rack.width,
     });
