@@ -1,5 +1,7 @@
 import Konva from 'konva';
+import { Feed } from './Feed/feed';
 import { RackContainer } from './rack-container';
+import { Colors } from './style';
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -12,40 +14,16 @@ var stage = new Konva.Stage({
   height: height,
 });
 
-/*
-var gridLayer = new Konva.Layer();
-var padding = UUnit.height;
-
-for (var i = 0; i < width / padding; i++) {
-  gridLayer.add(
-    new Konva.Line({
-      points: [
-        Math.round(i * padding) + 0.5,
-        0,
-        Math.round(i * padding) + 0.5,
-        height,
-      ],
-      stroke: '#ddd',
-      strokeWidth: 1,
-    })
-  );
-}
-
-gridLayer.add(new Konva.Line({ points: [0, 0, 10, 10] }));
-for (var j = 0; j < height / padding; j++) {
-  gridLayer.add(
-    new Konva.Line({
-      points: [0, Math.round(j * padding), width, Math.round(j * padding)],
-      stroke: '#ddd',
-      strokeWidth: 0.5,
-    })
-  );
-}
-*/
-
 var layer = new Konva.Layer();
 const rack = new RackContainer();
 layer.add(rack);
+
+const leftFeed = new Feed({ color: Colors.teal, side: 'left' });
+leftFeed.position({ x: rack.x() - Feed.width - 12, y: rack.y() });
+
+const rightFeed = new Feed({ color: Colors.orange, side: 'right' });
+rightFeed.position({ x: rack.x() + RackContainer.width + 12, y: rack.y() });
+layer.add(leftFeed, rightFeed);
 
 // create smaller preview stage
 const previewStage = new Konva.Stage({
