@@ -64,7 +64,15 @@ export class Asset extends Konva.Group {
     this.manufaturerAndInfos();
   }
 
-  assetName() {
+  topLeft(): { x: number; y: number } {
+    const y = this.y();
+    return {
+      x: 0 - this.groupSize.width / 2,
+      y: y - this.groupSize.height / 2,
+    };
+  }
+
+  private assetName() {
     const titleWidth = this.config.width / 3;
     this.titleBg = new Konva.Line({
       points: [
@@ -112,7 +120,7 @@ export class Asset extends Konva.Group {
     });
   }
 
-  manufaturerAndInfos() {
+  private manufaturerAndInfos() {
     const tag = new Tag('URL', (e) => {
       window.open('http://perdu.com', '_blank').focus();
     });

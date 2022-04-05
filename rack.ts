@@ -11,7 +11,7 @@ export class Rack extends Konva.Group {
 
   private shadowRectangle: Konva.Rect;
   private rackSlots: Record<number, Asset> = {};
-  private draggedAssetRow: number | undefined;
+  private initialDragCoordinate: { x: number; y: number } | undefined;
   private selectedAsset: Asset | undefined;
   private backDrop: Konva.Rect;
   constructor() {
@@ -110,28 +110,33 @@ export class Rack extends Konva.Group {
   }
 
   private dragStart = (e: KonvaEventObject<DragEvent>, asset: Asset) => {
-    this.draggedAssetRow = this.rowForY(asset.y());
+    this.initialDragCoordinate = asset.position();
     this.shadowRectangle.size(asset.groupSize);
     this.shadowRectangle.show();
     this.shadowRectangle.moveToTop();
-    asset.scale({ x: 0.8, y: 0.8 });
+    // asset.scale({ x: 0.8, y: 0.8 });
     asset.moveToTop();
   };
 
   private dragEnd = (e: KonvaEventObject<DragEvent>, asset: Asset) => {
-    if (this.isRowAvailable(this.rowForY(asset.y()), asset)) {
-      asset.position(this.snapAsset(asset));
+    if (this.isRowAvailable(this.rowForY(asset.topLeft().y), asset)) {
+      const positionWithoutOffset = this.snapAsset(asset.topLeft());
+      const assetSize = asset.size();
+      asset.position({
+        x: positionWithoutOffset.x + assetSize.width / 2,
+        y: positionWithoutOffset.y + assetSize.height / 2,
+      });
     } else {
-      asset.position({ x: 0, y: this.yForRow(this.draggedAssetRow) });
+      asset.position(this.initialDragCoordinate);
     }
-    asset.scale({ x: 1, y: 1 });
+    // asset.scale({ x: 1, y: 1 });
     this.shadowRectangle.hide();
   };
 
   private dragMove = (e: KonvaEventObject<DragEvent>, asset: Asset) => {
-    const lineHeight = UUnit.height + UUnit.vMargin;
-    this.shadowRectangle.position(this.snapAsset(asset));
-    if (this.isRowAvailable(this.rowForY(asset.y()), asset)) {
+    this.shadowRectangle.position(this.snapAsset(asset.topLeft()));
+
+    if (this.isRowAvailable(this.rowForY(asset.topLeft().y), asset)) {
       this.shadowRectangle.fill('#71B249');
       this.shadowRectangle.stroke('#456e2c');
     } else {
@@ -140,11 +145,14 @@ export class Rack extends Konva.Group {
     }
   };
 
-  private snapAsset(asset: Asset): { x: number; y: number } {
+  private snapAsset({ x, y }: { x: number; y: number }): {
+    x: number;
+    y: number;
+  } {
     const lineHeight = UUnit.height + UUnit.vMargin;
     return {
       x: 0,
-      y: Math.round(asset.y() / lineHeight) * lineHeight,
+      y: Math.round(y / lineHeight) * lineHeight,
     };
   }
 
